@@ -1,0 +1,19 @@
+{
+  "social": {
+    "github":    "https://github.com/FurkanKirat",
+    "linkedin":  "https://www.linkedin.com/company/kankan-games",
+    "twitter":   "https://x.com/KanKanGames_",
+    "instagram": "https://www.instagram.com/kankangames_",
+    "youtube":   "https://www.youtube.com/@KanKanGames",
+    "tiktok":    "https://www.tiktok.com/@kankangames_",
+    "support_email": "kankanstudios.support@gmail.com"
+  },
+  "projects": {
+    "deepbound": {
+      "steam": ""
+    },
+    "shadowOfRoles": {
+      "playStore": "https://play.google.com/store/apps/details?id=com.kankangames.shadowofroles"
+    }
+  }
+}

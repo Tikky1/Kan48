@@ -14,6 +14,10 @@
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init("F7oKKwKd7QFQwhW_O");</script>
   <script>
     tailwind.config = {
       theme: {
@@ -68,6 +72,15 @@
 
     .slide-right { opacity: 0; transform: translateX(40px); transition: opacity 1s ease-out, transform 1s ease-out; }
     .slide-right.visible { opacity: 1; transform: translateX(0); }
+
+    .teknik-not {
+      display: block;
+      margin-top: 12px;
+      font-size: 10px;
+      font-family: 'Space Grotesk', monospace;
+      color: #a89080;
+      letter-spacing: 0.05em;
+    }
   </style>
 </head>
 <body class="font-sans antialiased">
@@ -142,13 +155,13 @@
           </p>
 
           <div class="mt-8 flex flex-wrap items-center justify-center gap-3 fade-in" style="transition-delay: 400ms;">
-            <span class="inline-flex items-center px-4 py-2 rounded-full border border-border bg-card/80 backdrop-blur-sm text-xs font-mono text-foreground shadow-sm">High-performance ECS Architecture</span>
-            <span class="inline-flex items-center px-4 py-2 rounded-full border border-border bg-card/80 backdrop-blur-sm text-xs font-mono text-foreground shadow-sm">Zero-allocation Memory Management</span>
-            <span class="inline-flex items-center px-4 py-2 rounded-full border border-border bg-card/80 backdrop-blur-sm text-xs font-mono text-foreground shadow-sm">Data-Oriented Design (DOD)</span>
+            <span class="inline-flex items-center px-4 py-2 rounded-full border border-border bg-card/80 backdrop-blur-sm text-xs font-mono text-foreground shadow-sm">No lag. No stutters.</span>
+            <span class="inline-flex items-center px-4 py-2 rounded-full border border-border bg-card/80 backdrop-blur-sm text-xs font-mono text-foreground shadow-sm">P2P Multiplayer</span>
+            <span class="inline-flex items-center px-4 py-2 rounded-full border border-border bg-card/80 backdrop-blur-sm text-xs font-mono text-foreground shadow-sm">Different Biomes</span>
           </div>
 
           <p class="mt-8 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed fade-in" style="transition-delay: 500ms;">
-            Built from the ground up with a custom C# engine core, DeepBound pushes the boundaries of what a 2D sandbox can achieve.
+            Dig, build, survive — and bring your friends. DeepBound is a 2D sandbox built for those who want to go deeper.
           </p>
 
           <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 fade-in" style="transition-delay: 700ms;">
@@ -181,7 +194,7 @@
         </div>
 
         <!-- Project 1: DeepBound -->
-        <div class="mb-8 fade-in">
+        <div id="deepbound" class="mb-8 fade-in">
           <div class="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow">
             <div class="grid grid-cols-1 lg:grid-cols-2">
               <div class="relative aspect-[16/10] lg:aspect-auto overflow-hidden">
@@ -195,25 +208,31 @@
                 </div>
                 <h3 class="font-mono text-2xl lg:text-3xl font-bold text-foreground mb-2">DeepBound</h3>
                 <p class="font-mono text-sm text-primary mb-4">2D Modular Sandbox Engine & Game</p>
-                <p class="text-muted-foreground leading-relaxed mb-6">A high-performance 2D modular sandbox engine built from scratch in C#. Featuring Entity Component System architecture, zero-allocation memory management, and Data-Oriented Design for maximum performance.</p>
+                <p class="text-muted-foreground leading-relaxed mb-6">Explore infinite underground worlds, build your base, and survive 
+against creatures lurking in the deep — alone or with friends via 
+seamless P2P multiplayer. Built on a custom engine for smooth, 
+stutter-free gameplay.</p>
                 <div class="flex flex-wrap gap-2 mb-8">
-                  <span class="px-3 py-1 rounded-md text-xs font-mono bg-secondary text-secondary-foreground border border-border">ECS Architecture</span>
-                  <span class="px-3 py-1 rounded-md text-xs font-mono bg-secondary text-secondary-foreground border border-border">Zero-alloc</span>
-                  <span class="px-3 py-1 rounded-md text-xs font-mono bg-secondary text-secondary-foreground border border-border">DOD</span>
+                  <span class="px-3 py-1 rounded-md text-xs font-mono bg-secondary text-secondary-foreground border border-border">Sandbox</span>
+                  <span class="px-3 py-1 rounded-md text-xs font-mono bg-secondary text-secondary-foreground border border-border">P2P Multiplayer</span>
+                  <span class="px-3 py-1 rounded-md text-xs font-mono bg-secondary text-secondary-foreground border border-border">2D</span>
                   <span class="px-3 py-1 rounded-md text-xs font-mono bg-secondary text-secondary-foreground border border-border">Custom Engine</span>
                   <span class="px-3 py-1 rounded-md text-xs font-mono bg-secondary text-secondary-foreground border border-border">C#</span>
                 </div>
-                <a href="#" class="inline-flex items-center gap-2 text-sm font-mono text-primary hover:gap-3 transition-all">
-                  Wishlist on Steam
-                  <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                </a>
+                <div class="flex items-center gap-3">
+                  <a id="steam-link" data-link="projects.deepbound.steam" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-mono text-primary hover:gap-3 transition-all">
+                    Wishlist on Steam
+                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                  </a>
+                  <span id="steam-badge" class="px-2 py-0.5 text-xs font-mono bg-secondary text-muted-foreground border border-border rounded-md">Coming Soon</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Project 2: Shadow of Roles -->
-        <div class="fade-in">
+        <div id="shadow-of-roles" class="fade-in">
           <div class="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow">
             <div class="grid grid-cols-1 lg:grid-cols-2">
               <div class="relative aspect-[16/10] lg:aspect-auto overflow-hidden lg:order-2">
@@ -235,7 +254,7 @@
                   <span class="px-3 py-1 rounded-md text-xs font-mono bg-secondary text-secondary-foreground border border-border">Mobile</span>
                   <span class="px-3 py-1 rounded-md text-xs font-mono bg-secondary text-secondary-foreground border border-border">Multiplayer</span>
                 </div>
-                <a href="#" class="inline-flex items-center gap-2 text-sm font-mono text-primary hover:gap-3 transition-all">
+                <a data-link="projects.shadowOfRoles.playStore" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-mono text-primary hover:gap-3 transition-all">
                   View on Google Play
                   <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
                 </a>
@@ -246,58 +265,80 @@
       </div>
     </section>
 
-    <!-- ==================== TECHNICAL DEEP DIVE ==================== -->
+    <!-- ==================== UNDER THE HOOD ==================== -->
     <section id="tech" class="relative py-24 lg:py-32 bg-secondary/40">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="text-center mb-16">
           <p class="font-mono text-primary text-sm tracking-[0.3em] uppercase mb-4">Engineering</p>
-          <h2 class="font-mono text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">TECHNICAL DEEP DIVE</h2>
+          <h2 class="font-mono text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">UNDER THE HOOD</h2>
           <p class="mt-4 text-muted-foreground max-w-xl mx-auto leading-relaxed">Systems programming at its core. Every decision is driven by performance metrics and engineering excellence.</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           <!-- Card 1 -->
           <div class="fade-in group relative bg-card border border-border rounded-2xl p-8 shadow-sm hover:border-primary/30 hover:shadow-md transition-all duration-700">
             <div class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div class="w-12 h-12 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center mb-6 group-hover:bg-primary/15 transition-colors">
               <svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
             </div>
-            <h3 class="font-mono text-lg font-bold text-foreground mb-3">Custom C# Engine Core</h3>
-            <p class="text-sm text-muted-foreground leading-relaxed">Handcrafted game engine optimized for raw performance. Built without unnecessary abstractions, every component is designed for speed.</p>
-            <div class="absolute bottom-0 right-0 w-20 h-20 opacity-[0.03]" style="background-image: linear-gradient(#c49a6c 1px, transparent 1px), linear-gradient(90deg, #c49a6c 1px, transparent 1px); background-size: 8px 8px;"></div>
+            <h3 class="font-mono text-lg font-bold text-foreground mb-3">No Lag. Ever.</h3>
+            <p class="text-sm text-muted-foreground leading-relaxed">Custom engine architecture eliminates stutters even in massive worlds with hundreds of entities.</p>
+            <span class="teknik-not">Custom ECS · Zero-allocation · DOD</span>
           </div>
 
           <!-- Card 2 -->
-          <div class="fade-in group relative bg-card border border-border rounded-2xl p-8 shadow-sm hover:border-primary/30 hover:shadow-md transition-all duration-700" style="transition-delay: 120ms;">
+          <div class="fade-in group relative bg-card border border-border rounded-2xl p-8 shadow-sm hover:border-primary/30 hover:shadow-md transition-all duration-700" style="transition-delay: 100ms;">
             <div class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div class="w-12 h-12 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center mb-6 group-hover:bg-primary/15 transition-colors">
               <svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></svg>
             </div>
-            <h3 class="font-mono text-lg font-bold text-foreground mb-3">Hybrid Serialization</h3>
-            <p class="text-sm text-muted-foreground leading-relaxed">Fast save/load systems using a custom hybrid serialization approach. Minimizes I/O overhead while maintaining data integrity.</p>
-            <div class="absolute bottom-0 right-0 w-20 h-20 opacity-[0.03]" style="background-image: linear-gradient(#c49a6c 1px, transparent 1px), linear-gradient(90deg, #c49a6c 1px, transparent 1px); background-size: 8px 8px;"></div>
+            <h3 class="font-mono text-lg font-bold text-foreground mb-3">Your World, Always Saved</h3>
+            <p class="text-sm text-muted-foreground leading-relaxed">Fast and reliable save system means your progress is never lost, load times are instant.</p>
+            <span class="teknik-not">Hybrid Serialization · Binary Format</span>
           </div>
 
           <!-- Card 3 -->
-          <div class="fade-in group relative bg-card border border-border rounded-2xl p-8 shadow-sm hover:border-primary/30 hover:shadow-md transition-all duration-700" style="transition-delay: 240ms;">
+          <div class="fade-in group relative bg-card border border-border rounded-2xl p-8 shadow-sm hover:border-primary/30 hover:shadow-md transition-all duration-700" style="transition-delay: 200ms;">
+            <div class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="w-12 h-12 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center mb-6 group-hover:bg-primary/15 transition-colors">
+              <svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3 class="font-mono text-lg font-bold text-foreground mb-3">Play With Friends, Anywhere</h3>
+            <p class="text-sm text-muted-foreground leading-relaxed">Drop-in P2P multiplayer powered by Steam. No dedicated server needed — just invite and play.</p>
+            <span class="teknik-not">LiteNetLib · Steamworks · Client Prediction</span>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="fade-in group relative bg-card border border-border rounded-2xl p-8 shadow-sm hover:border-primary/30 hover:shadow-md transition-all duration-700" style="transition-delay: 100ms;">
             <div class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div class="w-12 h-12 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center mb-6 group-hover:bg-primary/15 transition-colors">
               <svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             </div>
-            <h3 class="font-mono text-lg font-bold text-foreground mb-3">SIMD & AVX Optimizations</h3>
-            <p class="text-sm text-muted-foreground leading-relaxed">Low-level performance tuning leveraging SIMD and AVX instruction sets for parallel data processing and computational efficiency.</p>
-            <div class="absolute bottom-0 right-0 w-20 h-20 opacity-[0.03]" style="background-image: linear-gradient(#c49a6c 1px, transparent 1px), linear-gradient(90deg, #c49a6c 1px, transparent 1px); background-size: 8px 8px;"></div>
+            <h3 class="font-mono text-lg font-bold text-foreground mb-3">Smooth as Butter</h3>
+            <p class="text-sm text-muted-foreground leading-relaxed">Consistent 60fps even in the most complex scenes. Built for performance from day one.</p>
+            <span class="teknik-not">SIMD · AVX · Data-Oriented Design</span>
           </div>
 
-          <!-- Card 4 -->
-          <div class="fade-in group relative bg-card border border-border rounded-2xl p-8 shadow-sm hover:border-primary/30 hover:shadow-md transition-all duration-700" style="transition-delay: 360ms;">
+          <!-- Card 5 -->
+          <div class="fade-in group relative bg-card border border-border rounded-2xl p-8 shadow-sm hover:border-primary/30 hover:shadow-md transition-all duration-700 sm:col-span-2 lg:col-span-1" style="transition-delay: 200ms;">
             <div class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div class="w-12 h-12 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center mb-6 group-hover:bg-primary/15 transition-colors">
-              <svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.315 8.685a.98.98 0 0 1 .837-.276c.47.07.802.48.968.925a2.501 2.501 0 1 0 3.214-3.214c-.446-.166-.855-.497-.925-.968a.979.979 0 0 1 .276-.837l1.61-1.61a2.404 2.404 0 0 1 1.705-.707c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02Z"/></svg>
+              <svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
             </div>
-            <h3 class="font-mono text-lg font-bold text-foreground mb-3">Modular Modding API</h3>
-            <p class="text-sm text-muted-foreground leading-relaxed">Community-driven expansion through a modular modding API. Designed for extensibility, enabling players to create and share content.</p>
-            <div class="absolute bottom-0 right-0 w-20 h-20 opacity-[0.03]" style="background-image: linear-gradient(#c49a6c 1px, transparent 1px), linear-gradient(90deg, #c49a6c 1px, transparent 1px); background-size: 8px 8px;"></div>
+              <h3 class="font-mono text-lg font-bold text-foreground mb-3">A World Worth Exploring</h3>
+              <p>Handcrafted biomes, hidden caves and underground structures reward exploration at every depth.</p>
+              <span class="teknik-not">Biome System · Structure Placement · SfGrid2D</span>
+          </div>
+
+          <!-- Card 6 (Combat Mechanics - Revised) -->
+          <div class="fade-in group relative bg-card border border-border rounded-2xl p-8 shadow-sm hover:border-primary/30 hover:shadow-md transition-all duration-700" style="transition-delay: 300ms;">
+            <div class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="w-12 h-12 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center mb-6 group-hover:bg-primary/15 transition-colors">
+              <svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="M16 16l4 4"/><path d="M19 21l2-2"/></svg>
+            </div>
+            <h3 class="font-mono text-lg font-bold text-foreground mb-3">Weighty & Responsive</h3>
+            <p class="text-sm text-muted-foreground leading-relaxed">Experience a combat system where every hit has weight. Custom collision logic ensures that your skill is the only thing that matters in a fight.</p>
+            <span class="teknik-not">Spatial Hashing · Discrete Collision · Predictor</span>
           </div>
         </div>
       </div>
@@ -306,64 +347,93 @@
     <!-- ==================== ABOUT ==================== -->
     <section id="about" class="relative py-24 lg:py-32">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <!-- Image Side -->
-          <div class="relative slide-left">
-            <div class="relative aspect-[4/3] rounded-2xl overflow-hidden border border-border shadow-sm">
-              <img src="images/founder.jpg" alt="Founder of KankanGames" class="w-full h-full object-cover" />
-              <div class="absolute inset-0 bg-gradient-to-tr from-background/30 to-transparent"></div>
-            </div>
-            <div class="absolute -bottom-4 -right-4 w-24 h-24 border-2 border-primary/15 rounded-2xl -z-10"></div>
-            <div class="absolute -top-4 -left-4 w-16 h-16 border-2 border-accent/15 rounded-2xl -z-10"></div>
-          </div>
 
-          <!-- Content Side -->
-          <div class="slide-right">
-            <p class="font-mono text-primary text-sm tracking-[0.3em] uppercase mb-4">About the Founder</p>
+        <!-- Part 1: Studio Story -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start mb-20">
+          <div class="slide-left">
+            <p class="font-mono text-primary text-sm tracking-[0.3em] uppercase mb-4">About the Studio</p>
             <h2 class="font-mono text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
               PERFORMANCE-FIRST<span class="text-primary"> GAME DEV</span>
             </h2>
             <p class="mt-6 text-muted-foreground leading-relaxed">
-              KankanGames was founded by a Computer Science student at <span class="text-foreground font-medium">Bilkent University</span>, driven by a deep passion for performance-first game development and systems programming.
+              KankanGames is an independent game studio founded by three 
+              passionate developers, driven by a love for performance-first 
+              game development and systems programming.
             </p>
             <p class="mt-4 text-muted-foreground leading-relaxed">
               Every line of code is written with performance in mind. From custom engine architectures to low-level optimizations, the goal is always the same: build software that runs as fast as theoretically possible.
             </p>
+          </div>
 
-            <!-- Key Points -->
-            <div class="mt-10 flex flex-col gap-5">
-              <div class="flex items-start gap-4 fade-in" style="transition-delay: 600ms;">
-                <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center">
-                  <svg class="h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16c0 1 2.5 3 6 3s6-2 6-3v-3.5"/></svg>
-                </div>
-                <div>
-                  <p class="font-mono text-sm font-bold text-foreground">Bilkent University</p>
-                  <p class="text-sm text-muted-foreground mt-0.5">Computer Science student with focus on systems programming</p>
-                </div>
+          <div class="slide-right flex flex-col gap-5 lg:pt-4">
+            <div class="flex items-start gap-4 fade-in" style="transition-delay: 600ms;">
+              <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center">
+                <svg class="h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16c0 1 2.5 3 6 3s6-2 6-3v-3.5"/></svg>
               </div>
-
-              <div class="flex items-start gap-4 fade-in" style="transition-delay: 750ms;">
-                <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center">
-                  <svg class="h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
-                </div>
-                <div>
-                  <p class="font-mono text-sm font-bold text-foreground">Performance Obsessed</p>
-                  <p class="text-sm text-muted-foreground mt-0.5">Zero-allocation patterns, SIMD optimizations, data-oriented design</p>
-                </div>
+              <div>
+                <p class="font-mono text-sm font-bold text-foreground">Independent Studio</p>
+                <p class="text-sm text-muted-foreground mt-0.5">
+                  Three developers building games from the ground up
+                </p>
               </div>
+            </div>
 
-              <div class="flex items-start gap-4 fade-in" style="transition-delay: 900ms;">
-                <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center">
-                  <svg class="h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
-                </div>
-                <div>
-                  <p class="font-mono text-sm font-bold text-foreground">Systems Programmer</p>
-                  <p class="text-sm text-muted-foreground mt-0.5">Custom engines, low-level C# and C++, real-time systems</p>
-                </div>
+            <div class="flex items-start gap-4 fade-in" style="transition-delay: 750ms;">
+              <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center">
+                <svg class="h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+              </div>
+              <div>
+                <p class="font-mono text-sm font-bold text-foreground">Performance Obsessed</p>
+                <p class="text-sm text-muted-foreground mt-0.5">Zero-allocation patterns, SIMD optimizations, data-oriented design</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 fade-in" style="transition-delay: 900ms;">
+              <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center">
+                <svg class="h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+              </div>
+              <div>
+                <p class="font-mono text-sm font-bold text-foreground">Systems Programmer</p>
+                <p class="text-sm text-muted-foreground mt-0.5">Custom engines, low-level C# and C++, real-time systems</p>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- Part 2: Portfolio Shots -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 fade-in">
+          <!-- DeepBound -->
+          <div class="group relative aspect-square rounded-2xl overflow-hidden border border-border shadow-sm">
+            <img src="images/deepbound.jpg" alt="DeepBound Gameplay" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-foreground/65 via-foreground/10 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-5">
+              <p class="font-mono text-[10px] text-white/60 uppercase tracking-[0.2em] mb-1">Sandbox Engine</p>
+              <p class="font-mono text-base font-bold text-white">DeepBound</p>
+            </div>
+          </div>
+
+          <!-- Shadow of Roles -->
+          <div class="group relative aspect-square rounded-2xl overflow-hidden border border-border shadow-sm">
+            <img src="images/shadow-of-roles.jpg" alt="Shadow of Roles" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-foreground/65 via-foreground/10 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-5">
+              <p class="font-mono text-[10px] text-white/60 uppercase tracking-[0.2em] mb-1">Mobile RPG</p>
+              <p class="font-mono text-base font-bold text-white">Shadow of Roles</p>
+            </div>
+          </div>
+
+          <!-- Code -->
+          <div class="group relative aspect-square rounded-2xl overflow-hidden border border-border shadow-sm">
+            <img src="images/code.jpg" alt="Shadow of Roles" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-foreground/65 via-foreground/10 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-5">
+              <p class="font-mono text-[10px] text-white/60 uppercase tracking-[0.2em] mb-1">Systems Code</p>
+              <p class="font-mono text-base font-bold text-white">Custom Engine</p>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
 
@@ -382,7 +452,7 @@
 
         <!-- Social Links Grid -->
         <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-4xl mx-auto">
-          <a href="#" class="group flex flex-col items-center text-center p-8 bg-card border border-border rounded-2xl shadow-sm hover:border-primary/30 hover:shadow-md transition-all fade-in">
+          <a data-link="social.github" href="#" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center text-center p-8 bg-card border border-border rounded-2xl shadow-sm hover:border-primary/30 hover:shadow-md transition-all fade-in">
             <div class="w-14 h-14 rounded-full bg-primary/10 border border-primary/15 flex items-center justify-center mb-4 group-hover:bg-primary/15 group-hover:scale-105 transition-all">
               <svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
             </div>
@@ -390,7 +460,7 @@
             <p class="text-xs text-muted-foreground leading-relaxed">Open source projects & engine code</p>
           </a>
 
-          <a href="#" class="group flex flex-col items-center text-center p-8 bg-card border border-border rounded-2xl shadow-sm hover:border-primary/30 hover:shadow-md transition-all fade-in" style="transition-delay: 100ms;">
+          <a data-link="social.linkedin" href="#" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center text-center p-8 bg-card border border-border rounded-2xl shadow-sm hover:border-primary/30 hover:shadow-md transition-all fade-in" style="transition-delay: 100ms;">
             <div class="w-14 h-14 rounded-full bg-primary/10 border border-primary/15 flex items-center justify-center mb-4 group-hover:bg-primary/15 group-hover:scale-105 transition-all">
               <svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
             </div>
@@ -398,15 +468,15 @@
             <p class="text-xs text-muted-foreground leading-relaxed">Professional network & updates</p>
           </a>
 
-          <a href="#" class="group flex flex-col items-center text-center p-8 bg-card border border-border rounded-2xl shadow-sm hover:border-primary/30 hover:shadow-md transition-all fade-in" style="transition-delay: 200ms;">
+          <a data-link="social.twitter" href="#" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center text-center p-8 bg-card border border-border rounded-2xl shadow-sm hover:border-primary/30 hover:shadow-md transition-all fade-in" style="transition-delay: 200ms;">
             <div class="w-14 h-14 rounded-full bg-primary/10 border border-primary/15 flex items-center justify-center mb-4 group-hover:bg-primary/15 group-hover:scale-105 transition-all">
               <svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
             </div>
-            <h3 class="font-mono text-base font-bold text-foreground mb-1">Twitter</h3>
+            <h3 class="font-mono text-base font-bold text-foreground mb-1">Twitter / X</h3>
             <p class="text-xs text-muted-foreground leading-relaxed">Dev logs & game updates</p>
           </a>
 
-          <a href="mailto:hello@kankangames.com" class="group flex flex-col items-center text-center p-8 bg-card border border-border rounded-2xl shadow-sm hover:border-primary/30 hover:shadow-md transition-all fade-in" style="transition-delay: 300ms;">
+          <a href="mailto:kankanstudios.support@gmail.com" class="group flex flex-col items-center text-center p-8 bg-card border border-border rounded-2xl shadow-sm hover:border-primary/30 hover:shadow-md transition-all fade-in" style="transition-delay: 300ms;">
             <div class="w-14 h-14 rounded-full bg-primary/10 border border-primary/15 flex items-center justify-center mb-4 group-hover:bg-primary/15 group-hover:scale-105 transition-all">
               <svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
             </div>
@@ -415,30 +485,58 @@
           </a>
         </div>
 
+        <!-- Follow Section: Instagram, YouTube, TikTok -->
+        <div class="mt-5 grid grid-cols-3 gap-5 max-w-3xl mx-auto">
+          <a data-link="social.instagram" href="#" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center text-center p-6 bg-card border border-border rounded-2xl shadow-sm hover:border-primary/30 hover:shadow-md transition-all fade-in">
+            <div class="w-12 h-12 rounded-full bg-primary/10 border border-primary/15 flex items-center justify-center mb-3 group-hover:bg-primary/15 group-hover:scale-105 transition-all">
+              <svg class="h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            </div>
+            <h3 class="font-mono text-sm font-bold text-foreground mb-1">Instagram</h3>
+            <p class="text-xs text-muted-foreground leading-relaxed">Behind the scenes & visuals</p>
+          </a>
+
+          <a data-link="social.youtube" href="#" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center text-center p-6 bg-card border border-border rounded-2xl shadow-sm hover:border-primary/30 hover:shadow-md transition-all fade-in" style="transition-delay: 100ms;">
+            <div class="w-12 h-12 rounded-full bg-primary/10 border border-primary/15 flex items-center justify-center mb-3 group-hover:bg-primary/15 group-hover:scale-105 transition-all">
+              <svg class="h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+            </div>
+            <h3 class="font-mono text-sm font-bold text-foreground mb-1">YouTube</h3>
+            <p class="text-xs text-muted-foreground leading-relaxed">Devlogs & engine demos</p>
+          </a>
+
+          <a data-link="social.tiktok" href="#" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center text-center p-6 bg-card border border-border rounded-2xl shadow-sm hover:border-primary/30 hover:shadow-md transition-all fade-in" style="transition-delay: 200ms;">
+            <div class="w-12 h-12 rounded-full bg-primary/10 border border-primary/15 flex items-center justify-center mb-3 group-hover:bg-primary/15 group-hover:scale-105 transition-all">
+              <svg class="h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.95a8.24 8.24 0 0 0 4.84 1.56V6.97a4.85 4.85 0 0 1-1.07-.28z"/></svg>
+            </div>
+            <h3 class="font-mono text-sm font-bold text-foreground mb-1">TikTok</h3>
+            <p class="text-xs text-muted-foreground leading-relaxed">Quick clips & game highlights</p>
+          </a>
+        </div>
+
         <!-- Contact Form -->
         <div class="mt-16 max-w-2xl mx-auto">
           <div class="bg-card border border-border rounded-2xl p-8 shadow-sm">
             <h3 class="font-mono text-xl font-bold text-foreground mb-6 text-center">Send a Message</h3>
-            <form class="flex flex-col gap-5" onsubmit="event.preventDefault();">
+            <form id="contact-form" class="flex flex-col gap-5">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label for="name" class="block text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2">Name</label>
-                  <input id="name" type="text" placeholder="Your name" class="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:bg-card transition-colors" />
+                  <input id="name" name="from_name" type="text" placeholder="Your name" required class="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:bg-card transition-colors" />
                 </div>
                 <div>
                   <label for="email" class="block text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2">Email</label>
-                  <input id="email" type="email" placeholder="your@email.com" class="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:bg-card transition-colors" />
+                  <input id="email" name="from_email" type="email" placeholder="your@email.com" required class="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:bg-card transition-colors" />
                 </div>
               </div>
               <div>
                 <label for="subject" class="block text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2">Subject</label>
-                <input id="subject" type="text" placeholder="What is this about?" class="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:bg-card transition-colors" />
+                <input id="subject" name="subject" type="text" placeholder="What is this about?" required class="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:bg-card transition-colors" />
               </div>
               <div>
                 <label for="message" class="block text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2">Message</label>
-                <textarea id="message" rows="5" placeholder="Your message..." class="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:bg-card transition-colors resize-none"></textarea>
+                <textarea id="message" name="message" rows="5" placeholder="Your message..." required class="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:bg-card transition-colors resize-none"></textarea>
               </div>
-              <button type="submit" class="w-full bg-primary text-primary-foreground px-6 py-3.5 rounded-xl font-mono text-sm font-semibold tracking-wider hover:bg-primary/90 transition-colors">Send Message</button>
+              <div id="form-status" class="hidden text-sm font-mono text-center px-4 py-3 rounded-xl"></div>
+              <button id="submit-btn" type="submit" class="w-full bg-primary text-primary-foreground px-6 py-3.5 rounded-xl font-mono text-sm font-semibold tracking-wider hover:bg-primary/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed">Send Message</button>
             </form>
           </div>
         </div>
@@ -459,15 +557,24 @@
             </span>
           </a>
           <p class="mt-4 text-sm text-muted-foreground leading-relaxed max-w-xs">Performance-first game development. Building high-performance engines and unforgettable gaming experiences.</p>
-          <div class="flex gap-3 mt-6">
-            <a href="#" class="w-9 h-9 rounded-xl bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all" aria-label="GitHub">
+          <div class="flex flex-wrap gap-3 mt-6">
+            <a data-link="social.github" href="#" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all" aria-label="GitHub">
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
             </a>
-            <a href="#" class="w-9 h-9 rounded-xl bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all" aria-label="LinkedIn">
+            <a data-link="social.linkedin" href="#" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all" aria-label="LinkedIn">
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
             </a>
-            <a href="#" class="w-9 h-9 rounded-xl bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all" aria-label="Twitter">
+            <a data-link="social.twitter" href="#" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all" aria-label="Twitter">
               <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+            </a>
+            <a data-link="social.instagram" href="#" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all" aria-label="Instagram">
+              <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            </a>
+            <a data-link="social.youtube" href="#" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all" aria-label="YouTube">
+              <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+            </a>
+            <a data-link="social.tiktok" href="#" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all" aria-label="TikTok">
+              <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.95a8.24 8.24 0 0 0 4.84 1.56V6.97a4.85 4.85 0 0 1-1.07-.28z"/></svg>
             </a>
           </div>
         </div>
@@ -476,8 +583,8 @@
         <div>
           <h4 class="font-mono text-sm font-semibold text-foreground uppercase tracking-wider mb-4">Projects</h4>
           <ul class="flex flex-col gap-2.5">
-            <li><a href="#projects" class="text-sm text-muted-foreground hover:text-primary transition-colors">DeepBound Engine</a></li>
-            <li><a href="#projects" class="text-sm text-muted-foreground hover:text-primary transition-colors">Shadow of Roles</a></li>
+            <li><a href="#deepbound" class="text-sm text-muted-foreground hover:text-primary transition-colors">DeepBound Engine</a></li>
+            <li><a href="#shadow-of-roles" class="text-sm text-muted-foreground hover:text-primary transition-colors">Shadow of Roles</a></li>
           </ul>
         </div>
 
@@ -496,8 +603,6 @@
       <div class="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
         <p class="text-xs text-muted-foreground">Copyright 2026 KankanGames. All rights reserved.</p>
         <div class="flex gap-6">
-          <a href="#" class="text-xs text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a>
-          <a href="#" class="text-xs text-muted-foreground hover:text-primary transition-colors">Terms of Service</a>
         </div>
       </div>
     </div>
@@ -505,6 +610,7 @@
 
   <!-- ==================== SCRIPTS ==================== -->
   <script>
+    let siteLinks = {};
     // Navbar scroll effect
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
@@ -559,6 +665,77 @@
         el.classList.add('visible');
       });
     });
+
+    // Load links from data/links.json and apply to all [data-link] elements
+    async function initLinks() {
+      try {
+        const res = await fetch('data/links.json');
+        siteLinks = await res.json();
+      } catch (e) {
+        return; // Silently skip — fetch fails on file:// protocol (use Live Server to test locally)
+      }
+
+      function resolve(obj, path) {
+        return path.split('.').reduce((acc, key) => acc?.[key], obj);
+      }
+
+      document.querySelectorAll('[data-link]').forEach(el => {
+        const value = resolve(siteLinks, el.dataset.link);
+        if (value) el.href = value;
+      });
+
+      // Steam badge: hide when URL is live
+      const steamBadge = document.getElementById('steam-badge');
+      if (steamBadge && siteLinks.projects?.deepbound?.steam) {
+        steamBadge.remove();
+      }
+    }
+    initLinks();
+
+    const EMAILJS_SERVICE_ID  = 'service_r9xn32w';
+    const EMAILJS_TEMPLATE_ID = 'template_h8not64';
+
+    const contactForm = document.getElementById('contact-form');
+    const submitBtn   = document.getElementById('submit-btn');
+    const formStatus  = document.getElementById('form-status');
+
+    function setStatus(msg, isError) {
+      formStatus.textContent = msg;
+      formStatus.className = 'text-sm font-mono text-center px-4 py-3 rounded-xl ' +
+        (isError
+          ? 'bg-red-50 text-red-700 border border-red-200'
+          : 'bg-green-50 text-green-700 border border-green-200');
+    }
+
+    contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    formStatus.className = 'hidden';
+
+    const sentAt = new Date().toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' });
+
+    const templateParams = {
+      from_name:  contactForm.querySelector('[name="from_name"]').value,
+      from_email: contactForm.querySelector('[name="from_email"]').value,
+      subject:    contactForm.querySelector('[name="subject"]').value,
+      message:    contactForm.querySelector('[name="message"]').value,
+      sent_at:    sentAt,
+    };
+
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      setStatus('Message sent! I will get back to you soon.', false);
+      contactForm.reset();
+    } catch (err) {
+      setStatus(`Failed to send — please try emailing ${siteLinks.social?.support_email || 'kankanstudios.support@gmail.com'} directly.`, true);
+      console.error('EmailJS error:', err);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
+    }
+  });
   </script>
 </body>
 </html>
