@@ -1,0 +1,70 @@
+{
+  "game": {
+    "title": "Deepbound",
+    "developer": "KanKan Studios",
+    "location": "Ankara, Turkey",
+    "releaseDate": "Coming soon (TBA)",
+    "releaseStatus": "In Development",
+    "platforms": ["PC (Steam)"],
+    "genres": ["Action", "Adventure", "Indie", "RPG", "2D Sandbox", "Survival Craft"],
+    "price": "",
+    "shortDescription": "Dig, craft, build, and survive in a procedurally generated 2D world. Explore diverse biomes, unearth rare resources in deep caves, craft powerful gear, and face dark bosses — solo or with friends.",
+    "longDescription": "Deepbound is a 2D action RPG sandbox set in a procedurally generated world, where no two playthroughs are the same. Explore three distinct biomes — the Ancient Grove, the frozen Snow biome, and the scorching Desert — each with unique terrain, creatures, and resources. The real danger lies underground: carve through cave systems, uncover rare resources, and face creatures lurking in the dark as you dig deeper. Shape the world to your will by placing and destroying blocks, customizing structures, and lighting up your base. Gather resources and craft weapons, armor, and tools at your workbench to prepare for what awaits in the shadows. At the heart of the underground waits Dracula, a formidable boss that tests everything you've built and fought for. Team up with friends in online co-op — Deepbound is built for multiplayer from the ground up.",
+    "features": [
+      "Three distinct procedurally generated biomes: Ancient Grove, Snow, and Desert",
+      "Deep cave systems with rare resources and lurking creatures",
+      "Full building and base customization with destructible blocks",
+      "Crafting system for weapons, armor, and tools",
+      "Boss encounters, including the formidable Dracula",
+      "Online co-op multiplayer built from the ground up",
+      "Custom C# engine built for smooth, stutter-free gameplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/4508390/Deepbound",
+    "steamAppId": "4508390",
+    "trailerUrl": "https://www.youtube.com/watch?v=P3bwZToHLn8",
+    "websiteUrl": "https://kankangames.com"
+  },
+  "studio": {
+    "name": "KanKan Studios",
+    "foundedYear": "",
+    "location": "Ankara, Turkey",
+    "about": "KanKan Studios is an independent game studio founded by three passionate developers, driven by a love for performance-first game development and systems programming. Every line of code is written with performance in mind — from custom engine architectures to low-level optimizations — with the goal of building software that runs as fast as theoretically possible.",
+    "teamSize": "3",
+    "previousGames": ["Shadow of Roles (Google Play)"]
+  },
+  "media": {
+    "logo": "",
+    "keyArt": "",
+    "screenshots": [
+      "images/press/screenshot1.png",
+      "images/press/screenshot2.png",
+      "images/press/screenshot3.png",
+      "images/press/screenshot4.png",
+      "images/press/screenshot5.png",
+      "images/press/screenshot6.png",
+      "images/press/screenshot7.png",
+      "images/press/screenshot8.png",
+      "images/press/screenshot9.png"
+    ],
+    "icon": "",
+    "capsuleImages": []
+  },
+  "links": {
+    "discord": "https://discord.com/invite/9TdPZskxCu",
+    "twitter": "https://x.com/KanKanGames_",
+    "instagram": "https://www.instagram.com/kankangames_",
+    "tiktok": "https://www.tiktok.com/@kankangames_",
+    "youtube": "https://www.youtube.com/@KanKanGames",
+    "reddit": "https://www.reddit.com/r/Deepbound",
+    "github": "",
+    "linkedin": "",
+    "bluesky": "https://bsky.app/profile/kankanstudios.bsky.social"
+  },
+  "contact": {
+    "pressEmail": "",
+    "businessEmail": "kankanstudios.support@gmail.com"
+  },
+  "awards": [],
+  "quotes": [],
+  "downloadableAssetsZip": ""
+}
