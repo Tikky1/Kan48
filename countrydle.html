@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#faf6f1" />
+<title>Countrydle | KankanGames</title>
+<meta name="description" content="Countrydle - guess the country from a shrinking set of clues. A mini game by KankanGames." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+          mono: ['Space Grotesk', 'monospace'],
+        },
+        colors: {
+          background: '#faf6f1',
+          foreground: '#2c1810',
+          card: '#ffffff',
+          'card-foreground': '#2c1810',
+          primary: '#8b5e3c',
+          'primary-foreground': '#faf6f1',
+          secondary: '#f0e6da',
+          'secondary-foreground': '#2c1810',
+          muted: '#f0e6da',
+          'muted-foreground': '#8c7a6b',
+          accent: '#c49a6c',
+          'accent-foreground': '#2c1810',
+          border: '#ddd0c3',
+        },
+        borderRadius: { '2xl': '1rem' }
+      },
+    },
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { background-color: #faf6f1; color: #2c1810; }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+  @keyframes pop-in {
+    0% { opacity: 0; transform: scale(0.92); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+  }
+  .animate-fade-up { animation: fade-up 0.7s ease-out forwards; }
+  .animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+  .hint-pop { animation: pop-in 0.4s ease-out forwards; }
+  .shake { animation: shake 0.4s ease-in-out; }
+
+  .life-dot { transition: background-color 0.3s ease, transform 0.3s ease; }
+  .life-dot.lost { background-color: #ddd0c3 !important; transform: scale(0.85); }
+
+  #suggestions::-webkit-scrollbar { width: 6px; }
+  #suggestions::-webkit-scrollbar-thumb { background: #ddd0c3; border-radius: 999px; }
+</style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- ==================== NAVBAR ==================== -->
+  <header class="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border">
+    <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4 lg:px-8">
+      <a href="index.html" class="flex items-center gap-2.5 group">
+        <svg class="h-6 w-6 text-primary transition-transform group-hover:rotate-12" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1.09 0 2.04-.586 2.56-1.46l.82-1.38A2 2 0 0 1 10.1 15h3.8a2 2 0 0 1 1.72.98l.82 1.37A3.01 3.01 0 0 0 19 19a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+        <span class="font-mono text-lg font-bold tracking-tight text-foreground">
+          Kankan<span class="text-primary">Games</span>
+        </span>
+      </a>
+      <a href="minigames.html" class="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors">&larr; All Minigames</a>
+    </nav>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 py-16 lg:py-20">
+
+    <!-- ==================== TITLE ==================== -->
+    <div class="text-center animate-fade-up">
+      <p class="font-mono text-primary text-sm tracking-[0.3em] uppercase mb-4">Guess The Country</p>
+      <h1 class="font-mono text-5xl md:text-6xl font-bold tracking-tight text-foreground">
+        COUNTRY<span class="text-primary">DLE</span>
+      </h1>
+      <p class="mt-4 text-muted-foreground max-w-md mx-auto leading-relaxed">
+        A clue is revealed. You have four guesses. Every wrong answer costs a life and unlocks a new clue.
+      </p>
+    </div>
+
+    <!-- ==================== LIVES ==================== -->
+    <div class="mt-10 flex items-center justify-center gap-3">
+      <span class="font-mono text-xs uppercase tracking-wider text-muted-foreground mr-1">Lives</span>
+      <div id="lives" class="flex gap-2"></div>
+    </div>
+
+    <!-- ==================== HINTS ==================== -->
+    <div id="hints" class="mt-8 flex flex-col gap-3"></div>
+
+    <!-- ==================== RESULT BANNER ==================== -->
+    <div id="result" class="hidden mt-2 mb-4 rounded-2xl border px-5 py-4 text-center font-medium"></div>
+
+    <!-- ==================== GUESS FORM ==================== -->
+    <div id="guessArea" class="mt-8 relative">
+      <div class="flex flex-col sm:flex-row gap-3">
+        <div class="relative flex-1">
+          <input
+            id="searchField"
+            type="text"
+            autocomplete="off"
+            placeholder="Type a country name..."
+            class="w-full rounded-2xl border border-border bg-card px-5 py-3.5 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-colors"
+          />
+          <div id="suggestions" class="hidden absolute z-20 mt-2 w-full max-h-56 overflow-y-auto rounded-2xl border border-border bg-card shadow-lg"></div>
+        </div>
+        <button
+          id="guessButton"
+          class="shrink-0 rounded-2xl bg-primary text-primary-foreground font-mono font-semibold px-8 py-3.5 hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          Guess
+        </button>
+      </div>
+      <p id="selectedHint" class="mt-2 text-xs font-mono text-muted-foreground text-center"></p>
+    </div>
+
+    <p class="mt-12 text-center teknik-not text-[11px] font-mono text-muted-foreground tracking-wider">
+      Ported from the original JavaFX build of Countrydle · 29 countries, 5 clues each
+    </p>
+  </main>
+
+  <script>
+    const COUNTRIES = [
+      {"name":"Turkey","hints":["Bosphorus Bridge","Capital is Ankara","Aegean Sea Coast","Famous for kebabs","Has historical Istanbul"]},
+      {"name":"France","hints":["Eiffel Tower","Known for wine","Capital is Paris","Croissant originated here","Hosts the Louvre Museum"]},
+      {"name":"Germany","hints":["Known for beer and sausages","Capital is Berlin","Has the Black Forest","Oktoberfest is famous","Hosts the Brandenburg Gate"]},
+      {"name":"Japan","hints":["Known for sushi","Capital is Tokyo","Has Mount Fuji","Famous for cherry blossoms","Hosts the Shinkansen (bullet train)"]},
+      {"name":"United States","hints":["Statue of Liberty","Capital is Washington, D.C.","Hollywood is in California","Known for fast food","Hosts the Grand Canyon"]},
+      {"name":"Brazil","hints":["Amazon Rainforest","Capital is Brasília","Famous for football","Hosts the Rio Carnival","Has Christ the Redeemer statue"]},
+      {"name":"India","hints":["Taj Mahal","Capital is New Delhi","Known for spices","Bollywood is famous","Hosts the Ganges River"]},
+      {"name":"Italy","hints":["Colosseum in Rome","Capital is Rome","Known for pizza and pasta","Hosts the Vatican City","Famous for Venice canals"]},
+      {"name":"Australia","hints":["Sydney Opera House","Capital is Canberra","Known for kangaroos","Great Barrier Reef","Hosts the Outback desert"]},
+      {"name":"Canada","hints":["Niagara Falls","Capital is Ottawa","Known for maple syrup","Hosts the Rocky Mountains","Famous for ice hockey"]},
+      {"name":"China","hints":["Great Wall of China","Capital is Beijing","Known for pandas","Famous for dumplings","Hosts the Forbidden City"]},
+      {"name":"United Kingdom","hints":["Big Ben","Capital is London","Known for tea","Hosts Buckingham Palace","Famous for red buses"]},
+      {"name":"Russia","hints":["Largest country by area","Capital is Moscow","Famous for vodka","Hosts the Kremlin","Known for Siberia"]},
+      {"name":"South Korea","hints":["Famous for K-pop","Capital is Seoul","Known for kimchi","Hosts the DMZ","Has Jeju Island"]},
+      {"name":"Mexico","hints":["Famous for tacos","Capital is Mexico City","Has Mayan ruins","Hosts Day of the Dead","Known for mariachi music"]},
+      {"name":"Argentina","hints":["Known for tango","Capital is Buenos Aires","Famous for beef","Hosts Iguazu Falls","Has Patagonia"]},
+      {"name":"South Africa","hints":["Known for safaris","Capital is Pretoria (administrative)","Hosts Table Mountain","Famous for Nelson Mandela","Has Kruger National Park"]},
+      {"name":"Egypt","hints":["Pyramids of Giza","Capital is Cairo","Known for the Nile River","Famous for ancient pharaohs","Hosts the Sphinx"]},
+      {"name":"Greece","hints":["Known for ancient ruins","Capital is Athens","Hosts the Parthenon","Famous for Greek mythology","Has beautiful islands"]},
+      {"name":"Spain","hints":["Famous for paella","Capital is Madrid","Hosts La Sagrada Familia","Known for flamenco dance","Has sunny beaches"]},
+      {"name":"Sweden","hints":["Known for IKEA","Capital is Stockholm","Hosts the Nobel Prize","Famous for ABBA","Has stunning northern lights"]},
+      {"name":"Norway","hints":["Known for fjords","Capital is Oslo","Hosts the Midnight Sun","Famous for salmon","Has Viking history"]},
+      {"name":"Netherlands","hints":["Known for tulips","Capital is Amsterdam","Hosts windmills","Famous for cheese","Has extensive canals"]},
+      {"name":"Switzerland","hints":["Known for chocolate","Capital is Bern","Hosts the Alps","Famous for watches","Has many lakes"]},
+      {"name":"New Zealand","hints":["Known for Lord of the Rings filming","Capital is Wellington","Hosts stunning fjords","Famous for kiwis (birds and fruit)","Has Maori culture"]},
+      {"name":"Thailand","hints":["Known for street food","Capital is Bangkok","Hosts beautiful temples","Famous for beaches","Has elephant sanctuaries"]},
+      {"name":"Saudi Arabia","hints":["Hosts Mecca","Capital is Riyadh","Known for oil production","Famous for deserts","Has the Red Sea coastline"]},
+      {"name":"United Arab Emirates","hints":["Known for Burj Khalifa","Capital is Abu Dhabi","Hosts luxury malls","Famous for desert safaris","Has Palm Islands"]},
+      {"name":"Portugal","hints":["Known for port wine","Capital is Lisbon","Hosts beautiful beaches","Famous for fado music","Has historic architecture"]}
+    ];
+
+    const MAX_LIVES = 4;
+    const MAX_HINTS = 5;
+    const countryNames = COUNTRIES.map(c => c.name).sort();
+
+    let chosen = null;
+    let guessCount = 0;
+    let isFinished = false;
+
+    const livesEl = document.getElementById('lives');
+    const hintsEl = document.getElementById('hints');
+    const resultEl = document.getElementById('result');
+    const searchField = document.getElementById('searchField');
+    const suggestionsEl = document.getElementById('suggestions');
+    const guessButton = document.getElementById('guessButton');
+    const selectedHintEl = document.getElementById('selectedHint');
+
+    function shuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function renderLives() {
+      livesEl.innerHTML = '';
+      for (let i = 0; i < MAX_LIVES; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'life-dot h-3 w-3 rounded-full ' + (i < MAX_LIVES - guessCount ? 'bg-primary' : 'bg-border lost');
+        livesEl.appendChild(dot);
+      }
+    }
+
+    function addHintCard(text, index) {
+      const card = document.createElement('div');
+      card.className = 'hint-pop bg-card border border-border rounded-2xl px-5 py-4 flex items-center gap-4';
+      card.innerHTML = `
+        <span class="shrink-0 font-mono text-xs font-semibold text-accent-foreground bg-secondary rounded-full h-7 w-7 flex items-center justify-center">${index + 1}</span>
+        <span class="text-foreground">${text}</span>
+      `;
+      hintsEl.appendChild(card);
+    }
+
+    function start() {
+      isFinished = false;
+      guessCount = 0;
+      resultEl.classList.add('hidden');
+      resultEl.textContent = '';
+      hintsEl.innerHTML = '';
+      searchField.value = '';
+      searchField.disabled = false;
+      selectedHintEl.textContent = '';
+      guessButton.textContent = 'Guess';
+      guessButton.disabled = false;
+
+      const country = COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)];
+      chosen = { name: country.name, hints: shuffle(country.hints) };
+
+      renderLives();
+      addHintCard(chosen.hints[0], 0);
+      searchField.focus();
+    }
+
+    function finishGame(won) {
+      isFinished = true;
+      searchField.disabled = true;
+      suggestionsEl.classList.add('hidden');
+
+      for (let i = 1; i < MAX_HINTS; i++) {
+        addHintCard(chosen.hints[i], i);
+      }
+
+      resultEl.classList.remove('hidden');
+      if (won) {
+        resultEl.className = 'mt-2 mb-4 rounded-2xl border px-5 py-4 text-center font-medium bg-secondary border-primary/30 text-foreground';
+        resultEl.textContent = `Correct! The country was ${chosen.name}.`;
+      } else {
+        resultEl.className = 'mt-2 mb-4 rounded-2xl border px-5 py-4 text-center font-medium bg-secondary border-border text-foreground';
+        resultEl.textContent = `Out of lives — the country was ${chosen.name}.`;
+      }
+
+      guessButton.textContent = 'Play again';
+    }
+
+    function submitGuess() {
+      if (isFinished) {
+        start();
+        return;
+      }
+      const value = searchField.value.trim();
+      if (!value) return;
+
+      const match = countryNames.find(n => n.toLowerCase() === value.toLowerCase());
+      if (!match) {
+        searchField.classList.add('shake');
+        setTimeout(() => searchField.classList.remove('shake'), 400);
+        return;
+      }
+
+      if (match === chosen.name) {
+        finishGame(true);
+        return;
+      }
+
+      if (guessCount >= MAX_LIVES - 1) {
+        guessCount = MAX_LIVES;
+        renderLives();
+        finishGame(false);
+      } else {
+        guessCount++;
+        renderLives();
+        addHintCard(chosen.hints[guessCount], guessCount);
+        searchField.value = '';
+        suggestionsEl.classList.add('hidden');
+        searchField.classList.add('shake');
+        setTimeout(() => searchField.classList.remove('shake'), 400);
+        searchField.focus();
+      }
+    }
+
+    function renderSuggestions() {
+      const q = searchField.value.trim().toLowerCase();
+      if (!q || isFinished) {
+        suggestionsEl.classList.add('hidden');
+        suggestionsEl.innerHTML = '';
+        return;
+      }
+      const matches = countryNames.filter(n => n.toLowerCase().includes(q)).slice(0, 8);
+      if (matches.length === 0) {
+        suggestionsEl.classList.add('hidden');
+        suggestionsEl.innerHTML = '';
+        return;
+      }
+      suggestionsEl.innerHTML = matches.map(n =>
+        `<button type="button" data-name="${n}" class="suggestion-item block w-full text-left px-5 py-2.5 hover:bg-secondary transition-colors text-foreground">${n}</button>`
+      ).join('');
+      suggestionsEl.classList.remove('hidden');
+
+      suggestionsEl.querySelectorAll('.suggestion-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+          searchField.value = btn.dataset.name;
+          suggestionsEl.classList.add('hidden');
+          searchField.focus();
+        });
+      });
+    }
+
+    searchField.addEventListener('input', renderSuggestions);
+    searchField.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        submitGuess();
+      }
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#guessArea')) suggestionsEl.classList.add('hidden');
+    });
+    guessButton.addEventListener('click', submitGuess);
+
+    start();
+  </script>
+</body>
+</html>
