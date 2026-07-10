@@ -1,0 +1,36 @@
+<header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-transparent">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+    <a href="index.html" class="flex items-center gap-2.5 group">
+      <svg class="h-6 w-6 text-primary transition-transform group-hover:rotate-12" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1.09 0 2.04-.586 2.56-1.46l.82-1.38A2 2 0 0 1 10.1 15h3.8a2 2 0 0 1 1.72.98l.82 1.37A3.01 3.01 0 0 0 19 19a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+      <span class="font-mono text-lg font-bold tracking-tight text-foreground">
+        Kankan<span class="text-primary">Games</span>
+      </span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="index.html" data-nav="home" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Home</a>
+      <a href="index.html#projects" data-nav="projects" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Projects</a>
+      <a href="index.html#contact" data-nav="contact" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Contact</a>
+      <a href="minigames.html" data-nav="minigames" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Minigames</a>
+      <a href="press.html" data-nav="press" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Press</a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button id="menu-btn" class="md:hidden text-foreground" aria-label="Open menu">
+      <svg id="menu-icon" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg id="close-icon" class="h-6 w-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div id="mobile-menu" class="hidden md:hidden bg-background/98 backdrop-blur-xl border-b border-border">
+    <div class="flex flex-col px-6 py-6 gap-5">
+      <a href="index.html" data-nav="home" class="mobile-link text-base font-medium text-muted-foreground hover:text-primary transition-colors">Home</a>
+      <a href="index.html#projects" data-nav="projects" class="mobile-link text-base font-medium text-muted-foreground hover:text-primary transition-colors">Projects</a>
+      <a href="index.html#contact" data-nav="contact" class="mobile-link text-base font-medium text-muted-foreground hover:text-primary transition-colors">Contact</a>
+      <a href="minigames.html" data-nav="minigames" class="mobile-link text-base font-medium text-muted-foreground hover:text-primary transition-colors">Minigames</a>
+      <a href="press.html" data-nav="press" class="mobile-link text-base font-medium text-muted-foreground hover:text-primary transition-colors">Press</a>
+    </div>
+  </div>
+</header>

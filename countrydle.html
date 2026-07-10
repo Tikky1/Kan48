@@ -75,22 +75,16 @@
   #suggestions::-webkit-scrollbar-thumb { background: #ddd0c3; border-radius: 999px; }
 </style>
 </head>
-<body class="font-sans antialiased">
+<body class="font-sans antialiased" data-nav-active="minigames" data-navbar-solid="true">
 
-  <!-- ==================== NAVBAR ==================== -->
-  <header class="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border">
-    <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4 lg:px-8">
-      <a href="index.html" class="flex items-center gap-2.5 group">
-        <svg class="h-6 w-6 text-primary transition-transform group-hover:rotate-12" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1.09 0 2.04-.586 2.56-1.46l.82-1.38A2 2 0 0 1 10.1 15h3.8a2 2 0 0 1 1.72.98l.82 1.37A3.01 3.01 0 0 0 19 19a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
-        <span class="font-mono text-lg font-bold tracking-tight text-foreground">
-          Kankan<span class="text-primary">Games</span>
-        </span>
-      </a>
-      <a href="minigames.html" class="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors">&larr; All Minigames</a>
-    </nav>
-  </header>
+  <!-- ==================== NAVBAR (loaded from partials/navbar.html) ==================== -->
+  <div id="navbar-placeholder"></div>
 
-  <main class="max-w-3xl mx-auto px-6 py-16 lg:py-20">
+  <div class="max-w-3xl mx-auto px-6 pt-28 lg:pt-32">
+    <a href="minigames.html" class="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors">&larr; All Minigames</a>
+  </div>
+
+  <main class="max-w-3xl mx-auto px-6 py-8 lg:py-10">
 
     <!-- ==================== TITLE ==================== -->
     <div class="text-center animate-fade-up">
@@ -138,51 +132,26 @@
       <p id="selectedHint" class="mt-2 text-xs font-mono text-muted-foreground text-center"></p>
     </div>
 
-    <p class="mt-12 text-center teknik-not text-[11px] font-mono text-muted-foreground tracking-wider">
-      Ported from the original JavaFX build of Countrydle · 29 countries, 5 clues each
-    </p>
+    <p id="game-stats" class="mt-12 text-center teknik-not text-[11px] font-mono text-muted-foreground tracking-wider"></p>
   </main>
 
+  <!-- ==================== FOOTER (loaded from partials/footer.html) ==================== -->
+  <div id="footer-placeholder"></div>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script src="js/common.js"></script>
+
   <script>
-    const COUNTRIES = [
-      {"name":"Turkey","hints":["Bosphorus Bridge","Capital is Ankara","Aegean Sea Coast","Famous for kebabs","Has historical Istanbul"]},
-      {"name":"France","hints":["Eiffel Tower","Known for wine","Capital is Paris","Croissant originated here","Hosts the Louvre Museum"]},
-      {"name":"Germany","hints":["Known for beer and sausages","Capital is Berlin","Has the Black Forest","Oktoberfest is famous","Hosts the Brandenburg Gate"]},
-      {"name":"Japan","hints":["Known for sushi","Capital is Tokyo","Has Mount Fuji","Famous for cherry blossoms","Hosts the Shinkansen (bullet train)"]},
-      {"name":"United States","hints":["Statue of Liberty","Capital is Washington, D.C.","Hollywood is in California","Known for fast food","Hosts the Grand Canyon"]},
-      {"name":"Brazil","hints":["Amazon Rainforest","Capital is Brasília","Famous for football","Hosts the Rio Carnival","Has Christ the Redeemer statue"]},
-      {"name":"India","hints":["Taj Mahal","Capital is New Delhi","Known for spices","Bollywood is famous","Hosts the Ganges River"]},
-      {"name":"Italy","hints":["Colosseum in Rome","Capital is Rome","Known for pizza and pasta","Hosts the Vatican City","Famous for Venice canals"]},
-      {"name":"Australia","hints":["Sydney Opera House","Capital is Canberra","Known for kangaroos","Great Barrier Reef","Hosts the Outback desert"]},
-      {"name":"Canada","hints":["Niagara Falls","Capital is Ottawa","Known for maple syrup","Hosts the Rocky Mountains","Famous for ice hockey"]},
-      {"name":"China","hints":["Great Wall of China","Capital is Beijing","Known for pandas","Famous for dumplings","Hosts the Forbidden City"]},
-      {"name":"United Kingdom","hints":["Big Ben","Capital is London","Known for tea","Hosts Buckingham Palace","Famous for red buses"]},
-      {"name":"Russia","hints":["Largest country by area","Capital is Moscow","Famous for vodka","Hosts the Kremlin","Known for Siberia"]},
-      {"name":"South Korea","hints":["Famous for K-pop","Capital is Seoul","Known for kimchi","Hosts the DMZ","Has Jeju Island"]},
-      {"name":"Mexico","hints":["Famous for tacos","Capital is Mexico City","Has Mayan ruins","Hosts Day of the Dead","Known for mariachi music"]},
-      {"name":"Argentina","hints":["Known for tango","Capital is Buenos Aires","Famous for beef","Hosts Iguazu Falls","Has Patagonia"]},
-      {"name":"South Africa","hints":["Known for safaris","Capital is Pretoria (administrative)","Hosts Table Mountain","Famous for Nelson Mandela","Has Kruger National Park"]},
-      {"name":"Egypt","hints":["Pyramids of Giza","Capital is Cairo","Known for the Nile River","Famous for ancient pharaohs","Hosts the Sphinx"]},
-      {"name":"Greece","hints":["Known for ancient ruins","Capital is Athens","Hosts the Parthenon","Famous for Greek mythology","Has beautiful islands"]},
-      {"name":"Spain","hints":["Famous for paella","Capital is Madrid","Hosts La Sagrada Familia","Known for flamenco dance","Has sunny beaches"]},
-      {"name":"Sweden","hints":["Known for IKEA","Capital is Stockholm","Hosts the Nobel Prize","Famous for ABBA","Has stunning northern lights"]},
-      {"name":"Norway","hints":["Known for fjords","Capital is Oslo","Hosts the Midnight Sun","Famous for salmon","Has Viking history"]},
-      {"name":"Netherlands","hints":["Known for tulips","Capital is Amsterdam","Hosts windmills","Famous for cheese","Has extensive canals"]},
-      {"name":"Switzerland","hints":["Known for chocolate","Capital is Bern","Hosts the Alps","Famous for watches","Has many lakes"]},
-      {"name":"New Zealand","hints":["Known for Lord of the Rings filming","Capital is Wellington","Hosts stunning fjords","Famous for kiwis (birds and fruit)","Has Maori culture"]},
-      {"name":"Thailand","hints":["Known for street food","Capital is Bangkok","Hosts beautiful temples","Famous for beaches","Has elephant sanctuaries"]},
-      {"name":"Saudi Arabia","hints":["Hosts Mecca","Capital is Riyadh","Known for oil production","Famous for deserts","Has the Red Sea coastline"]},
-      {"name":"United Arab Emirates","hints":["Known for Burj Khalifa","Capital is Abu Dhabi","Hosts luxury malls","Famous for desert safaris","Has Palm Islands"]},
-      {"name":"Portugal","hints":["Known for port wine","Capital is Lisbon","Hosts beautiful beaches","Famous for fado music","Has historic architecture"]}
-    ];
+    let COUNTRIES = [];
 
     const MAX_LIVES = 4;
     const MAX_HINTS = 5;
-    const countryNames = COUNTRIES.map(c => c.name).sort();
+    let countryNames = [];
 
     let chosen = null;
     let guessCount = 0;
     let isFinished = false;
+    let hintsShown = 0; // how many hint cards are actually on screen right now
 
     const livesEl = document.getElementById('lives');
     const hintsEl = document.getElementById('hints');
@@ -218,11 +187,13 @@
         <span class="text-foreground">${text}</span>
       `;
       hintsEl.appendChild(card);
+      hintsShown++;
     }
 
     function start() {
       isFinished = false;
       guessCount = 0;
+      hintsShown = 0;
       resultEl.classList.add('hidden');
       resultEl.textContent = '';
       hintsEl.innerHTML = '';
@@ -245,7 +216,10 @@
       searchField.disabled = true;
       suggestionsEl.classList.add('hidden');
 
-      for (let i = 1; i < MAX_HINTS; i++) {
+      // Only reveal hints that haven't already been shown on screen —
+      // hintsShown tracks the real count regardless of how guessCount was
+      // set (it jumps straight to MAX_LIVES on a loss without adding a card).
+      for (let i = hintsShown; i < MAX_HINTS; i++) {
         addHintCard(chosen.hints[i], i);
       }
 
@@ -336,7 +310,20 @@
     });
     guessButton.addEventListener('click', submitGuess);
 
-    start();
+    fetch('data/countrydle.json')
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      COUNTRIES = data;
+      countryNames = COUNTRIES.map(c => c.name).sort();
+
+      document.getElementById('game-stats').textContent = 
+      `Countrydle · ${data.length} countries, ${MAX_HINTS} clues each`;
+      
+      start(); // Veri başarıyla yüklenince oyunu başlat
+    })
+    .catch(function (err) {
+      console.error('Countrydle verisi yüklenemedi:', err);
+    });
   </script>
 </body>
 </html>
