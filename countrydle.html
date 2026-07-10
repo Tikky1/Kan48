@@ -95,6 +95,10 @@
       <p class="mt-4 text-muted-foreground max-w-md mx-auto leading-relaxed">
         A clue is revealed. You have four guesses. Every wrong answer costs a life and unlocks a new clue.
       </p>
+      <div class="mt-5 flex items-center justify-center gap-3 text-xs font-mono">
+        <span id="mode-label" class="uppercase tracking-wider text-muted-foreground"></span>
+        <button id="practice-link" type="button" class="text-primary hover:underline">Practice round instead →</button>
+      </div>
     </div>
 
     <!-- ==================== LIVES ==================== -->
@@ -152,6 +156,93 @@
     let guessCount = 0;
     let isFinished = false;
     let hintsShown = 0; // how many hint cards are actually on screen right now
+    let isPracticeMode = false; // false = today's daily puzzle, true = free random round
+
+    // ── Daily puzzle selection ──────────────────────────────────────────────
+    // No server/database needed: every visitor computes the same "country of
+    // the day" purely from today's date, deterministically. Nothing is ever
+    // "marked as used" anywhere — the date itself IS the selection key.
+    const DAY_MS = 86400000;
+    const DAILY_EPOCH = Date.UTC(2026, 0, 1); // fixed reference point — epoch day 0
+    const STORAGE_KEY = 'countrydle:daily';
+
+    // Deterministic seeded PRNG (mulberry32) — same seed always produces the
+    // same sequence, so the shuffle below is reproducible across every
+    // browser/device without needing to store anything.
+    function mulberry32(seed) {
+      return function () {
+        seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function seededShuffle(array, seed) {
+      const rand = mulberry32(seed);
+      const a = array.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(rand() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function getTodayEpochDay() {
+      const now = new Date();
+      const todayUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+      return Math.floor((todayUTC - DAILY_EPOCH) / DAY_MS);
+    }
+
+    // Picks the deterministic "country of the day" for a given epoch day.
+    // Countries are referenced by a stable `id` (falls back to their index in
+    // data/countrydle.json if no `id` field is present), so the full list is
+    // cycled through in a shuffled order without repeats until it wraps —
+    // at which point a NEW seed (the cycle number) reshuffles the order, so
+    // lap 2 doesn't repeat lap 1's sequence.
+    //
+    // IMPORTANT when adding countries later: only APPEND new entries to the
+    // end of data/countrydle.json and give them ids that haven't been used
+    // before. Reordering or removing existing entries (or reusing an id)
+    // will shift which country past/future days point to.
+    function pickDailyCountry(countries, epochDay) {
+      const ids = countries.map((c, i) => (c.id !== undefined ? c.id : i));
+      const total = ids.length;
+      const cycleIndex = Math.floor(epochDay / total);
+      const positionInCycle = epochDay % total;
+      const order = seededShuffle(ids, cycleIndex);
+      const dailyId = order[positionInCycle];
+      return countries[ids.indexOf(dailyId)];
+    }
+
+    // ── "Already played today?" — purely local to this browser, via
+    // localStorage. This is per-person UX state, not the global daily pick,
+    // so it never needs a server either.
+    function loadSavedDaily() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        const saved = JSON.parse(raw);
+        if (saved.epochDay !== getTodayEpochDay()) return null;
+        return saved;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveDailyResult(won) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          epochDay: getTodayEpochDay(),
+          countryName: chosen.name,
+          hints: chosen.hints,
+          guessCount,
+          won,
+        }));
+      } catch (e) {
+        // localStorage disabled/full — silently skip persistence
+      }
+    }
 
     const livesEl = document.getElementById('lives');
     const hintsEl = document.getElementById('hints');
@@ -160,6 +251,8 @@
     const suggestionsEl = document.getElementById('suggestions');
     const guessButton = document.getElementById('guessButton');
     const selectedHintEl = document.getElementById('selectedHint');
+    const modeLabelEl = document.getElementById('mode-label');
+    const practiceLinkEl = document.getElementById('practice-link');
 
     function shuffle(arr) {
       const a = arr.slice();
@@ -190,7 +283,14 @@
       hintsShown++;
     }
 
-    function start() {
+    function updateModeLabel() {
+      modeLabelEl.textContent = isPracticeMode ? 'Practice round' : "Today's puzzle";
+      practiceLinkEl.classList.toggle('hidden', isPracticeMode);
+    }
+
+    // Resets the board and starts a fresh round for the given country.
+    // Shared by both the daily puzzle and practice mode.
+    function buildRound(country) {
       isFinished = false;
       guessCount = 0;
       hintsShown = 0;
@@ -203,15 +303,49 @@
       guessButton.textContent = 'Guess';
       guessButton.disabled = false;
 
-      const country = COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)];
       chosen = { name: country.name, hints: shuffle(country.hints) };
 
       renderLives();
       addHintCard(chosen.hints[0], 0);
+      updateModeLabel();
       searchField.focus();
     }
 
-    function finishGame(won) {
+    // Today's deterministic puzzle — same country for every visitor today.
+    function startDaily() {
+      isPracticeMode = false;
+      const epochDay = getTodayEpochDay();
+      const country = pickDailyCountry(COUNTRIES, epochDay);
+      buildRound(country);
+    }
+
+    // Free, unlimited random rounds — doesn't touch daily progress/storage.
+    function startPractice() {
+      isPracticeMode = true;
+      const country = COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)];
+      buildRound(country);
+    }
+
+    // Rebuilds today's puzzle to the exact state it was left in (same
+    // country, same hint order, same number of guesses used) from what was
+    // saved in localStorage — so reloading the page on the same day doesn't
+    // give the player a brand new attempt.
+    function restoreDaily(saved) {
+      isPracticeMode = false;
+      guessCount = saved.guessCount;
+      hintsShown = 0;
+      resultEl.classList.add('hidden');
+      hintsEl.innerHTML = '';
+      chosen = { name: saved.countryName, hints: saved.hints };
+
+      renderLives();
+      for (let i = 0; i <= saved.guessCount && i < MAX_HINTS; i++) {
+        addHintCard(chosen.hints[i], i);
+      }
+      finishGame(saved.won, /* skipSave */ true);
+    }
+
+    function finishGame(won, skipSave) {
       isFinished = true;
       searchField.disabled = true;
       suggestionsEl.classList.add('hidden');
@@ -232,12 +366,19 @@
         resultEl.textContent = `Out of lives — the country was ${chosen.name}.`;
       }
 
-      guessButton.textContent = 'Play again';
+      if (isPracticeMode) {
+        guessButton.textContent = 'Play Again';
+      } else {
+        guessButton.textContent = 'Practice Mode';
+        if (!skipSave) saveDailyResult(won);
+      }
     }
 
     function submitGuess() {
       if (isFinished) {
-        start();
+        // Whether we just finished the daily puzzle or a practice round,
+        // the button's only job at this point is to hand you a free round.
+        startPractice();
         return;
       }
       const value = searchField.value.trim();
@@ -309,6 +450,7 @@
       if (!e.target.closest('#guessArea')) suggestionsEl.classList.add('hidden');
     });
     guessButton.addEventListener('click', submitGuess);
+    practiceLinkEl.addEventListener('click', startPractice);
 
     fetch('data/countrydle.json')
     .then(function (res) { return res.json(); })
@@ -318,8 +460,13 @@
 
       document.getElementById('game-stats').textContent = 
       `Countrydle · ${data.length} countries, ${MAX_HINTS} clues each`;
-      
-      start(); // Veri başarıyla yüklenince oyunu başlat
+
+      const saved = loadSavedDaily();
+      if (saved) {
+        restoreDaily(saved);
+      } else {
+        startDaily();
+      }
     })
     .catch(function (err) {
       console.error('Countrydle verisi yüklenemedi:', err);
